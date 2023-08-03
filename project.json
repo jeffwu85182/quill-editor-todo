@@ -16,23 +16,17 @@
         "outputPath": "dist/quill-editor-todo",
         "index": "src/index.html",
         "main": "src/main.ts",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "tsConfig": "tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": [
-          "src/favicon.ico",
-          "src/assets"
-        ],
+        "assets": ["src/favicon.ico", "src/assets"],
         "styles": [
+          "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
           "node_modules/quill/dist/quill.snow.css",
           "src/styles.scss"
         ],
-        "scripts": [],
-        "allowedCommonJsDependencies": [
-          "quill"
-        ]
+        "scripts": ["node_modules/@fortawesome/fontawesome-free/js/all.min.js"],
+        "allowedCommonJsDependencies": ["quill"]
       },
       "configurations": {
         "production": {
@@ -60,9 +54,7 @@
         }
       },
       "defaultConfiguration": "production",
-      "outputs": [
-        "{options.outputPath}"
-      ]
+      "outputs": ["{options.outputPath}"]
     },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
@@ -85,19 +77,11 @@
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "polyfills": [
-          "zone.js",
-          "zone.js/testing"
-        ],
+        "polyfills": ["zone.js", "zone.js/testing"],
         "tsConfig": "tsconfig.spec.json",
         "inlineStyleLanguage": "scss",
-        "assets": [
-          "src/favicon.ico",
-          "src/assets"
-        ],
-        "styles": [
-          "src/styles.scss"
-        ],
+        "assets": ["src/favicon.ico", "src/assets"],
+        "styles": ["src/styles.scss"],
         "scripts": []
       }
     }
