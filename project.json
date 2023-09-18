@@ -29,7 +29,10 @@
           "node_modules/quill/dist/quill.snow.css",
           "src/styles.scss"
         ],
-        "scripts": []
+        "scripts": [],
+        "allowedCommonJsDependencies": [
+          "quill"
+        ]
       },
       "configurations": {
         "production": {
