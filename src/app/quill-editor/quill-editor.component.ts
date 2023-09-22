@@ -2,6 +2,7 @@ import Quill from 'quill';
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SafeUrl } from '@angular/platform-browser';
+import { Counter } from '../custom-module';
 
 interface IImageMeta {
   type: string;
@@ -20,6 +21,7 @@ interface IImageMeta {
 export class QuillEditorComponent implements AfterViewInit {
   @ViewChild('quillContainer') quillContainer!: ElementRef;
   @ViewChild('toolbar') toolbar!: ElementRef;
+  @ViewChild('counter') counter!: ElementRef;
   private quillEditor: any;
   content: string = ''; // 初始化編輯器內容為空字串
   image: IImageMeta = {
@@ -59,6 +61,7 @@ export class QuillEditorComponent implements AfterViewInit {
     // };
     const icons = Quill.import('ui/icons');
     icons['customButton'] = '<i class="fa-regular fa-star"></i>';
+    Quill.register('modules/counter', Counter);
     this.quillEditor = new Quill(this.quillContainer.nativeElement, {
       // Quill Editor 的配置
       theme: 'snow', // 可以選擇不同的主題，例如 'bubble' 或 'core'
@@ -69,6 +72,10 @@ export class QuillEditorComponent implements AfterViewInit {
           handlers: {
             customButton: () => console.log('handle custom button'),
           },
+        },
+        counter: {
+          container: this.counter.nativeElement,
+          unit: 'word',
         },
       },
     });
