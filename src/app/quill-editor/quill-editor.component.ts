@@ -3,6 +3,7 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SafeUrl } from '@angular/platform-browser';
 import { Counter } from '../custom-module';
+import { QuillEditorService } from './quill-editor.service';
 
 interface IImageMeta {
   type: string;
@@ -30,7 +31,7 @@ export class QuillEditorComponent implements AfterViewInit {
     blobUrl: '',
     file: null,
   };
-  constructor() {}
+  constructor(private quillEditorService: QuillEditorService) {}
   ngAfterViewInit() {
     this.initQuillEditor();
     // 監聽編輯器內容變化事件，並將變化同步到 Angular 的資料模型
@@ -61,6 +62,10 @@ export class QuillEditorComponent implements AfterViewInit {
     // };
     const icons = Quill.import('ui/icons');
     icons['customButton'] = '<i class="fa-regular fa-star"></i>';
+    icons['helloWorldButton'] = '<i class="fa-solid fa-ghost"></i>';
+    icons['insertHeaderButton'] = '<i class="fa fa-info-circle"></i>';
+    icons['insertNormalTextButton'] =
+      '<i class="fa-solid fa-wand-magic-sparkles"></i>';
     Quill.register('modules/counter', Counter);
     this.quillEditor = new Quill(this.quillContainer.nativeElement, {
       // Quill Editor 的配置
@@ -71,6 +76,15 @@ export class QuillEditorComponent implements AfterViewInit {
           container: this.toolbar.nativeElement,
           handlers: {
             customButton: () => console.log('handle custom button'),
+            helloWorldButton: () => {
+              this.quillEditorService.insertHelloWorld(this.quillEditor);
+            },
+            insertHeaderButton: () => {
+              this.quillEditorService.insertHeader(this.quillEditor);
+            },
+            insertNormalTextButton: () => {
+              this.quillEditorService.insertNormalText(this.quillEditor);
+            },
           },
         },
         counter: {
