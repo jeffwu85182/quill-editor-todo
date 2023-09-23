@@ -16,11 +16,15 @@
     <button class="ql-insertHeaderButton" title="Insert Header">
       Insert Header
     </button>
-    <button
-      class="ql-insertNormalTextButton"
-      title="Insert normal text"
-    >Insert Normal Text</button>
+    <button class="ql-insertNormalTextButton" title="Insert normal text">
+      Insert Normal Text
+    </button>
   </span>
 </div>
 <div id="quill" #quillContainer></div>
 <div #counter></div>
+
+Current State:
+<pre
+  >{{ currentState | json }}
+</pre>

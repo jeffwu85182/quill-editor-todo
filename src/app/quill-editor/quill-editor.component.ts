@@ -23,7 +23,8 @@ export class QuillEditorComponent implements AfterViewInit {
   @ViewChild('quillContainer') quillContainer!: ElementRef;
   @ViewChild('toolbar') toolbar!: ElementRef;
   @ViewChild('counter') counter!: ElementRef;
-  private quillEditor: any;
+  currentState: unknown;
+  private quillEditor!: Quill;
   content: string = ''; // 初始化編輯器內容為空字串
   image: IImageMeta = {
     type: '',
@@ -37,6 +38,23 @@ export class QuillEditorComponent implements AfterViewInit {
     // 監聽編輯器內容變化事件，並將變化同步到 Angular 的資料模型
     this.quillEditor.on('text-change', () => {
       this.content = this.quillEditor.root.innerHTML;
+    });
+    this.subscribeCurrentState();
+  }
+
+  subscribeCurrentState() {
+    this.quillEditorService.quillUpdateSubject$.subscribe({
+      next: (changesDelta) => {
+        const contents = this.quillEditor.getContents();
+        this.currentState = JSON.stringify(
+          {
+            contents,
+            changes: changesDelta,
+          },
+          null,
+          2
+        );
+      },
     });
   }
 
@@ -93,6 +111,8 @@ export class QuillEditorComponent implements AfterViewInit {
         },
       },
     });
+
+    this.quillEditorService.updateQuillChanges(this.quillEditor);
   }
 
   getQuillEditorInstance(): Quill {
