@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import Quill from 'quill';
 import Delta from 'quill-delta';
 import { Subject } from 'rxjs';
+import { RedTextBlot } from '../custom-blot/red-text';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -45,5 +47,13 @@ export class QuillEditorService {
 
   updateQuillChanges(quill: Quill) {
     quill.on('text-change', (delta) => this.quillUpdateSubject$.next(delta));
+  }
+
+  registerCustomBolt() {
+    Quill.register(RedTextBlot);
+  }
+
+  insertRedText(quill: Quill) {
+    quill.insertText(0, 'This is Red Text', 'red-text', true);
   }
 }

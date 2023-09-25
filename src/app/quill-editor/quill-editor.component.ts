@@ -34,6 +34,7 @@ export class QuillEditorComponent implements AfterViewInit {
   };
   constructor(private quillEditorService: QuillEditorService) {}
   ngAfterViewInit() {
+    this.quillEditorService.registerCustomBolt();
     this.initQuillEditor();
     // 監聽編輯器內容變化事件，並將變化同步到 Angular 的資料模型
     this.quillEditor.on('text-change', () => {
@@ -84,6 +85,7 @@ export class QuillEditorComponent implements AfterViewInit {
     icons['insertHeaderButton'] = '<i class="fa fa-info-circle"></i>';
     icons['insertNormalTextButton'] =
       '<i class="fa-solid fa-wand-magic-sparkles"></i>';
+    icons['insertCustomBlotButton'] = '<i class="fa-solid fa-wand-magic"></i>';
     Quill.register('modules/counter', Counter);
     this.quillEditor = new Quill(this.quillContainer.nativeElement, {
       // Quill Editor 的配置
@@ -102,6 +104,9 @@ export class QuillEditorComponent implements AfterViewInit {
             },
             insertNormalTextButton: () => {
               this.quillEditorService.insertNormalText(this.quillEditor);
+            },
+            insertCustomBlotButton: () => {
+              this.quillEditorService.insertRedText(this.quillEditor);
             },
           },
         },
