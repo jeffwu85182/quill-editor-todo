@@ -3,7 +3,8 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SafeUrl } from '@angular/platform-browser';
 import { Counter } from '../custom-module';
-import { QuillEditorService } from './quill-editor.service';
+import { QuillEditorService } from '../services/quill-editor.service';
+import { ContentsService } from '../services/contents.service';
 
 interface IImageMeta {
   type: string;
@@ -32,7 +33,10 @@ export class QuillEditorComponent implements AfterViewInit {
     blobUrl: '',
     file: null,
   };
-  constructor(private quillEditorService: QuillEditorService) {}
+  constructor(
+    private quillEditorService: QuillEditorService,
+    private contentService: ContentsService
+  ) {}
   ngAfterViewInit() {
     this.quillEditorService.registerCustomBolt();
     this.initQuillEditor();
@@ -47,14 +51,12 @@ export class QuillEditorComponent implements AfterViewInit {
     this.quillEditorService.quillUpdateSubject$.subscribe({
       next: (changesDelta) => {
         const contents = this.quillEditor.getContents();
-        this.currentState = JSON.stringify(
-          {
-            contents,
-            changes: changesDelta,
-          },
+        (this.currentState = {
+          contents,
+          changes: changesDelta,
+        }),
           null,
-          2
-        );
+          2;
       },
     });
   }
@@ -122,5 +124,25 @@ export class QuillEditorComponent implements AfterViewInit {
 
   getQuillEditorInstance(): Quill {
     return this.quillEditor!;
+  }
+
+  deleteText() {
+    this.contentService.deleteText(this.quillEditor);
+  }
+
+  getContent() {
+    this.contentService.getContent(this.quillEditor);
+  }
+
+  getContentWithParams() {
+    this.contentService.getContentWithParams(this.quillEditor);
+  }
+
+  getLength() {
+    this.contentService.getLength(this.quillEditor);
+  }
+
+  getText() {
+    this.contentService.getText(this.quillEditor);
   }
 }

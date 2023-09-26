@@ -27,6 +27,15 @@
 <div id="quill" #quillContainer></div>
 <div #counter></div>
 
+<h2>Content API</h2>
+<div>
+  <button (click)="deleteText()">Delete Text</button>
+  <button (click)="getContent()">Get Content</button>
+  <button (click)="getContentWithParams()">Get Content with params</button>
+  <button (click)="getLength()">Get Length</button>
+  <button (click)="getText()">Get Text</button>
+
+</div>
 Current State:
 <pre
   >{{ currentState | json }}
