@@ -145,4 +145,28 @@ export class QuillEditorComponent implements AfterViewInit {
   getText() {
     this.contentService.getText(this.quillEditor);
   }
+
+  insertEmbed() {
+    this.contentService.insertEmbed(this.quillEditor);
+  }
+
+  insertText() {
+    this.contentService.insertText(this.quillEditor);
+  }
+
+  insertTextWithParams() {
+    this.contentService.insertTextWithParams(this.quillEditor);
+  }
+
+  setContents() {
+    this.contentService.setContents(this.quillEditor);
+  }
+
+  setText() {
+    this.contentService.setText(this.quillEditor);
+  }
+
+  updateContents() {
+    this.contentService.updateContents(this.quillEditor);
+  }
 }
