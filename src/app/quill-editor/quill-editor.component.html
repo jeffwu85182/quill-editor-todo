@@ -28,7 +28,7 @@
 <div #counter></div>
 
 <h2>Content API</h2>
-<div>
+<section>
   <button (click)="deleteText()">Delete Text</button>
   <button (click)="getContent()">Get Content</button>
   <button (click)="getContentWithParams()">Get Content with params</button>
@@ -40,7 +40,20 @@
   <button (click)="setContents()">Set Contents</button>
   <button (click)="setText()">Set Text</button>
   <button (click)="updateContents()">Update Contents</button>
-</div>
+</section>
+<h2>Format API</h2>
+<section>
+  <button (click)="format()">Format</button>
+  <button (click)="formatLineWithSingleFormat()">
+    FormatLine With Single Format
+  </button>
+  <button (click)="formatLineWithMultipleFormats()">
+    FormatLine With Multiple Formats
+  </button>
+  <button (click)="formatText()">Format Text</button>
+  <button (click)="getFormat()">Get Format</button>
+  <button (click)="removeFormat()">Remove Format</button>
+</section>
 Current State:
 <pre
   >{{ currentState | json }}

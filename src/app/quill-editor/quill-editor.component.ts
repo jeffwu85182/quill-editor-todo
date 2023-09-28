@@ -5,6 +5,7 @@ import { SafeUrl } from '@angular/platform-browser';
 import { Counter } from '../custom-module';
 import { QuillEditorService } from '../services/quill-editor.service';
 import { ContentsService } from '../services/contents.service';
+import { FormatService } from '../services/format.service';
 
 interface IImageMeta {
   type: string;
@@ -35,7 +36,8 @@ export class QuillEditorComponent implements AfterViewInit {
   };
   constructor(
     private quillEditorService: QuillEditorService,
-    private contentService: ContentsService
+    private contentService: ContentsService,
+    private formatService: FormatService
   ) {}
   ngAfterViewInit() {
     this.quillEditorService.registerCustomBolt();
@@ -168,5 +170,34 @@ export class QuillEditorComponent implements AfterViewInit {
 
   updateContents() {
     this.contentService.updateContents(this.quillEditor);
+  }
+
+  // Format
+  format() {
+    this.formatService.format(this.quillEditor);
+  }
+
+  formatLine() {
+    this.formatService.formatLine(this.quillEditor);
+  }
+
+  formatLineWithSingleFormat() {
+    this.formatService.formatLineWithSingleFormat(this.quillEditor);
+  }
+
+  formatLineWithMultipleFormats() {
+    this.formatService.formatLineWithMultipleFormats(this.quillEditor);
+  }
+
+  formatText() {
+    this.formatService.formatText(this.quillEditor);
+  }
+
+  getFormat() {
+    this.formatService.getFormat(this.quillEditor);
+  }
+
+  removeFormat() {
+    this.formatService.removeFormat(this.quillEditor);
   }
 }
