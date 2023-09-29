@@ -54,7 +54,18 @@
   <button (click)="getFormat()">Get Format</button>
   <button (click)="removeFormat()">Remove Format</button>
 </section>
+<h2>Selection</h2>
+<section>
+  <div>
+    <button (click)="getBounds()">Get Bounds</button>
+    :select some text in the editor after clicking the button
+  </div>
+  <button (click)="getSelection()">Get Selection</button>
+  <button (click)="setSelection()">Set Selection</button>
+</section>
 Current State:
 <pre
   >{{ currentState | json }}
 </pre>
+
+<section id="tooltip" #tooltip>我是一個小提示</section>

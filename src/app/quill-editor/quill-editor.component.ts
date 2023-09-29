@@ -6,6 +6,7 @@ import { Counter } from '../custom-module';
 import { QuillEditorService } from '../services/quill-editor.service';
 import { ContentsService } from '../services/contents.service';
 import { FormatService } from '../services/format.service';
+import { SelectionService } from '../services/selection.service';
 
 interface IImageMeta {
   type: string;
@@ -25,6 +26,7 @@ export class QuillEditorComponent implements AfterViewInit {
   @ViewChild('quillContainer') quillContainer!: ElementRef;
   @ViewChild('toolbar') toolbar!: ElementRef;
   @ViewChild('counter') counter!: ElementRef;
+  @ViewChild('tooltip') tooltip!: ElementRef;
   currentState: unknown;
   private quillEditor!: Quill;
   content: string = ''; // 初始化編輯器內容為空字串
@@ -37,7 +39,8 @@ export class QuillEditorComponent implements AfterViewInit {
   constructor(
     private quillEditorService: QuillEditorService,
     private contentService: ContentsService,
-    private formatService: FormatService
+    private formatService: FormatService,
+    private selectionService: SelectionService
   ) {}
   ngAfterViewInit() {
     this.quillEditorService.registerCustomBolt();
@@ -199,5 +202,38 @@ export class QuillEditorComponent implements AfterViewInit {
 
   removeFormat() {
     this.formatService.removeFormat(this.quillEditor);
+  }
+
+  // Selection
+  getBounds() {
+    this.quillEditor.on('selection-change', (range) => {
+      if (range) {
+        if (range.length > 0) {
+          // 獲取選擇範圍的界限
+          const bounds = this.selectionService.getBounds(
+            this.quillEditor,
+            range.index
+          );
+
+          // 定位和顯示小提示
+          const tooltip = this.tooltip.nativeElement;
+          tooltip.style.left = bounds.left + 'px';
+          tooltip.style.top = bounds.top + bounds.height + 'px';
+          tooltip.style.display = 'block';
+        } else {
+          // 隱藏小提示
+          const tooltip = this.tooltip.nativeElement;
+          tooltip.style.display = 'none';
+        }
+      }
+    });
+  }
+
+  getSelection() {
+    this.selectionService.getSelection(this.quillEditor);
+  }
+
+  setSelection() {
+    this.selectionService.setSelection(this.quillEditor);
   }
 }
