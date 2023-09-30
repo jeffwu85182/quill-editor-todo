@@ -54,6 +54,7 @@
   <button (click)="getFormat()">Get Format</button>
   <button (click)="removeFormat()">Remove Format</button>
 </section>
+
 <h2>Selection</h2>
 <section>
   <div>
@@ -63,9 +64,23 @@
   <button (click)="getSelection()">Get Selection</button>
   <button (click)="setSelection()">Set Selection</button>
 </section>
+
+<h2>Editor</h2>
+<section>
+  <button (click)="blur()">Blur</button>
+  <button (click)="disable()">Disable</button>
+  <button (click)="enable()">Enable</button>
+  <button (click)="focus()">Focus</button>
+  <button (click)="hasFocus()">Check Has Focus (console.log)</button>
+</section>
 Current State:
 <pre
   >{{ currentState | json }}
+</pre>
+
+<pre *ngIf="history?.stack">
+  {{ history.stack.undo.length | json }}
+  {{ history.stack.redo.length | json }}
 </pre>
 
 <section id="tooltip" #tooltip>我是一個小提示</section>

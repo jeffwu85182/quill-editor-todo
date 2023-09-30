@@ -1,4 +1,4 @@
-import Quill from 'quill';
+import Quill, { History } from 'quill';
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SafeUrl } from '@angular/platform-browser';
@@ -7,6 +7,8 @@ import { QuillEditorService } from '../services/quill-editor.service';
 import { ContentsService } from '../services/contents.service';
 import { FormatService } from '../services/format.service';
 import { SelectionService } from '../services/selection.service';
+import { EditorService } from '../services/editor.service';
+import Delta from 'quill-delta';
 
 interface IImageMeta {
   type: string;
@@ -28,6 +30,7 @@ export class QuillEditorComponent implements AfterViewInit {
   @ViewChild('counter') counter!: ElementRef;
   @ViewChild('tooltip') tooltip!: ElementRef;
   currentState: unknown;
+  history!: any;
   private quillEditor!: Quill;
   content: string = ''; // 初始化編輯器內容為空字串
   image: IImageMeta = {
@@ -40,7 +43,8 @@ export class QuillEditorComponent implements AfterViewInit {
     private quillEditorService: QuillEditorService,
     private contentService: ContentsService,
     private formatService: FormatService,
-    private selectionService: SelectionService
+    private selectionService: SelectionService,
+    private editorService: EditorService
   ) {}
   ngAfterViewInit() {
     this.quillEditorService.registerCustomBolt();
@@ -48,6 +52,7 @@ export class QuillEditorComponent implements AfterViewInit {
     // 監聽編輯器內容變化事件，並將變化同步到 Angular 的資料模型
     this.quillEditor.on('text-change', () => {
       this.content = this.quillEditor.root.innerHTML;
+      this.history = this.quillEditor.history;
     });
     this.subscribeCurrentState();
   }
@@ -235,5 +240,26 @@ export class QuillEditorComponent implements AfterViewInit {
 
   setSelection() {
     this.selectionService.setSelection(this.quillEditor);
+  }
+
+  // Editor
+  blur() {
+    this.editorService.blur(this.quillEditor);
+  }
+
+  disable() {
+    this.editorService.disable(this.quillEditor);
+  }
+
+  enable() {
+    this.editorService.enable(this.quillEditor);
+  }
+
+  focus() {
+    this.editorService.focus(this.quillEditor);
+  }
+
+  hasFocus() {
+    console.log(this.quillEditor.hasFocus());
   }
 }
