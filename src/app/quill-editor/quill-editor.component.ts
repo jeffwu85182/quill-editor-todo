@@ -1,4 +1,4 @@
-import Quill, { History } from 'quill';
+import Quill, { History, Sources } from 'quill';
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SafeUrl } from '@angular/platform-browser';
@@ -50,9 +50,27 @@ export class QuillEditorComponent implements AfterViewInit {
     this.quillEditorService.registerCustomBolt();
     this.initQuillEditor();
     // 監聽編輯器內容變化事件，並將變化同步到 Angular 的資料模型
-    this.quillEditor.on('text-change', () => {
-      this.content = this.quillEditor.root.innerHTML;
-      this.history = this.quillEditor.history;
+    // this.quillEditor.on(
+    //   'text-change',
+    //   (delta: Delta, oldContent: Delta, source: Sources) => {
+    //     console.log('text-change', delta);
+    //     console.log('oldContent', oldContent);
+    //     console.log('source', source);
+    //     this.content = this.quillEditor.root.innerHTML;
+    //     this.history = this.quillEditor.history;
+    //   }
+    // );
+
+    // 監聽選擇範圍變化事件
+    // this.quillEditor.on('selection-change', (range, oldRange, source) => {
+    //   console.log('selection-change', range);
+    //   console.log('oldRange', oldRange);
+    //   console.log('source', source);
+    // });
+
+    // 監聽編輯器內容變化事件
+    this.quillEditor.on('editor-change', (eventName: any, ...args: any) => {
+      console.log('editor-change', eventName, args);
     });
     this.subscribeCurrentState();
   }

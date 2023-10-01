@@ -47,7 +47,6 @@ export class QuillEditorService {
 
   updateQuillChanges(quill: Quill) {
     quill.on('text-change', (delta) => {
-      console.log('quill text-change', delta);
       this.quillUpdateSubject$.next(delta);
     });
   }
