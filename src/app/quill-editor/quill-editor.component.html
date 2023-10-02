@@ -78,6 +78,14 @@ Current State:
   >{{ currentState | json }}
 </pre>
 
+<h2>Model</h2>
+<section>
+  <button (click)="find()">Find</button>
+  <button (click)="getIndex()">Get Index</button>
+  <button (click)="getLeaf()">Get Leaf</button>
+  <button (click)="getLine()">Get Line</button>
+  <button (click)="getLines()">Get Lines</button>
+</section>
 <pre *ngIf="history?.stack">
   {{ history.stack.undo.length | json }}
   {{ history.stack.redo.length | json }}

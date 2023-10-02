@@ -9,6 +9,7 @@ import { FormatService } from '../services/format.service';
 import { SelectionService } from '../services/selection.service';
 import { EditorService } from '../services/editor.service';
 import Delta from 'quill-delta';
+import { ModelService } from '../services/model.service';
 
 interface IImageMeta {
   type: string;
@@ -44,7 +45,8 @@ export class QuillEditorComponent implements AfterViewInit {
     private contentService: ContentsService,
     private formatService: FormatService,
     private selectionService: SelectionService,
-    private editorService: EditorService
+    private editorService: EditorService,
+    private modelService: ModelService
   ) {}
   ngAfterViewInit() {
     this.quillEditorService.registerCustomBolt();
@@ -279,5 +281,26 @@ export class QuillEditorComponent implements AfterViewInit {
 
   hasFocus() {
     console.log(this.quillEditor.hasFocus());
+  }
+
+  // Model
+  find() {
+    this.modelService.find(this.quillEditor, this.quillContainer.nativeElement);
+  }
+
+  getIndex(){
+    this.modelService.getIndex(this.quillEditor);
+  }
+
+  getLeaf(){
+    this.modelService.getLeaf(this.quillEditor);
+  }
+
+  getLine(){
+    this.modelService.getLine(this.quillEditor);
+  }
+
+  getLines(){
+    this.modelService.getLines(this.quillEditor);
   }
 }
