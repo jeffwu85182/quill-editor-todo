@@ -2,6 +2,8 @@
   <span class="ql-formats">
     <button class="ql-bold">Bold</button>
     <button class="ql-italic">Italic</button>
+    <button class="ql-underline">Underline</button>
+    <button class="ql-dotted">Dotted</button>
     <button class="ql-link">Link</button>
     <button class="ql-list" value="bullet">Ul</button>
   </span>
@@ -86,9 +88,22 @@ Current State:
   <button (click)="getLine()">Get Line</button>
   <button (click)="getLines()">Get Lines</button>
 </section>
+
+<h2>Extension</h2>
+<section>
+  <button (click)="debug()">Debug</button>
+  <button (click)="import()">Import</button>
+  <button (click)="register()">Register</button>
+  <button (click)="addContainer()">Add Container</button>
+  <button (click)="addContainerWithNativeElement()">
+    Add Container with NativeElement
+  </button>
+  <button (click)="getModule()">Get Module</button>
+</section>
 <pre *ngIf="history?.stack">
   {{ history.stack.undo.length | json }}
   {{ history.stack.redo.length | json }}
 </pre>
 
 <section id="tooltip" #tooltip>我是一個小提示</section>
+<div class="ql-custom2" #custom2>This is custom2 container</div>

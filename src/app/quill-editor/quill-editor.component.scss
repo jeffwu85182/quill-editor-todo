@@ -1,0 +1,17 @@
+#tooltip {
+  display: none;
+  position: absolute;
+  background-color: lightgray;
+}
+
+.ql-custom2 {
+  display: none;
+  background-color: crimson;
+  color: white;
+}
+
+.ql-container {
+  .ql-custom2 {
+    display: block;
+  }
+}

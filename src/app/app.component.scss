@@ -1,0 +1,15 @@
+::ng-deep .ql-custom {
+  display: none;
+  width: 100%;
+  height: 20px;
+  background-color: lightseagreen;
+  &:before {
+    content: 'This is Custom Container';
+  }
+}
+
+::ng-deep .ql-container {
+  .ql-custom {
+    display: block;
+  }
+}

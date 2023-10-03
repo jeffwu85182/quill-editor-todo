@@ -10,6 +10,7 @@ import { SelectionService } from '../services/selection.service';
 import { EditorService } from '../services/editor.service';
 import Delta from 'quill-delta';
 import { ModelService } from '../services/model.service';
+import { ExtensionService } from '../services/extension.service';
 
 interface IImageMeta {
   type: string;
@@ -23,13 +24,14 @@ interface IImageMeta {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './quill-editor.component.html',
-  styleUrls: ['./quill-editor.component.css'],
+  styleUrls: ['./quill-editor.component.scss'],
 })
 export class QuillEditorComponent implements AfterViewInit {
   @ViewChild('quillContainer') quillContainer!: ElementRef;
   @ViewChild('toolbar') toolbar!: ElementRef;
   @ViewChild('counter') counter!: ElementRef;
   @ViewChild('tooltip') tooltip!: ElementRef;
+  @ViewChild('custom2') custom2!: ElementRef;
   currentState: unknown;
   history!: any;
   private quillEditor!: Quill;
@@ -46,7 +48,8 @@ export class QuillEditorComponent implements AfterViewInit {
     private formatService: FormatService,
     private selectionService: SelectionService,
     private editorService: EditorService,
-    private modelService: ModelService
+    private modelService: ModelService,
+    private extensionService: ExtensionService
   ) {}
   ngAfterViewInit() {
     this.quillEditorService.registerCustomBolt();
@@ -119,6 +122,7 @@ export class QuillEditorComponent implements AfterViewInit {
       '<i class="fa-solid fa-wand-magic-sparkles"></i>';
     icons['insertCustomBlotButton'] = '<i class="fa-solid fa-wand-magic"></i>';
     Quill.register('modules/counter', Counter);
+    this.extensionService.register();
     this.quillEditor = new Quill(this.quillContainer.nativeElement, {
       // Quill Editor 的配置
       theme: 'snow', // 可以選擇不同的主題，例如 'bubble' 或 'core'
@@ -146,6 +150,7 @@ export class QuillEditorComponent implements AfterViewInit {
           container: this.counter.nativeElement,
           unit: 'word',
         },
+        jeff: true,
       },
     });
 
@@ -288,19 +293,47 @@ export class QuillEditorComponent implements AfterViewInit {
     this.modelService.find(this.quillEditor, this.quillContainer.nativeElement);
   }
 
-  getIndex(){
+  getIndex() {
     this.modelService.getIndex(this.quillEditor);
   }
 
-  getLeaf(){
+  getLeaf() {
     this.modelService.getLeaf(this.quillEditor);
   }
 
-  getLine(){
+  getLine() {
     this.modelService.getLine(this.quillEditor);
   }
 
-  getLines(){
+  getLines() {
     this.modelService.getLines(this.quillEditor);
+  }
+
+  // Extension
+  debug() {
+    this.extensionService.debug();
+  }
+
+  import() {
+    this.extensionService.import();
+  }
+
+  register() {
+    this.extensionService.register();
+  }
+
+  addContainer() {
+    this.extensionService.addContainer(this.quillEditor);
+  }
+
+  addContainerWithNativeElement() {
+    this.extensionService.addContainerWithNativeElement(
+      this.quillEditor,
+      this.custom2.nativeElement
+    );
+  }
+
+  getModule() {
+    this.extensionService.getModule(this.quillEditor);
   }
 }
