@@ -1,0 +1,27 @@
+<p>toolbar-practice works!</p>
+
+<!-- For toolbar container init -->
+<!-- <div #myToolbar>
+  <button class="ql-bold">Bold</button>
+</div> -->
+
+<!-- Create toolbar container -->
+<div #myToolbar>
+  <!-- Add font size dropdown -->
+  <select title="dropdown" class="ql-size">
+    <option value="small"></option>
+    <!-- Note a missing, thus falsy value, is used to reset to default -->
+    <option selected></option>
+    <option value="large"></option>
+    <option value="huge"></option>
+  </select>
+  <!-- Add a bold button -->
+  <button title="bold" type="button" class="ql-bold"></button>
+  <!-- Add subscript and superscript buttons -->
+  <button title="sub" type="button" class="ql-script" value="sub"></button>
+  <button title="super" type="button" class="ql-script" value="super"></button>
+  <button title="myButton" type="button" class="custome-button" (click)="doSomething()">Hello</button>
+  <button title="link" type="button" class="ql-link">Link</button>
+</div>
+
+<div #quillContainer></div>
