@@ -3,6 +3,7 @@
     <button class="ql-bold">Bold</button>
     <button class="ql-italic">Italic</button>
     <button class="ql-underline">Underline</button>
+    <button class="ql-blockquote">Blockquote</button>
     <button class="ql-dotted">Dotted</button>
     <button class="ql-link">Link</button>
     <button class="ql-list" value="bullet">Ul</button>
@@ -100,6 +101,14 @@ Current State:
   </button>
   <button (click)="getModule()">Get Module</button>
 </section>
+
+<h2>Keyboard</h2>
+<section>
+  <button (click)="addBinding()">Add Binding</button>
+  <button (click)="addBindingWithMoreContext()">Add Binding With Context</button>
+  <button (click)="addBindingWithEmpty()">Add Binding With Empty </button>
+</section>
+
 <pre *ngIf="history?.stack">
   {{ history.stack.undo.length | json }}
   {{ history.stack.redo.length | json }}

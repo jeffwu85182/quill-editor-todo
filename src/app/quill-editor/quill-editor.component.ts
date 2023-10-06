@@ -1,4 +1,4 @@
-import Quill, { History, Sources } from 'quill';
+import Quill, { History, RangeStatic, Sources } from 'quill';
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SafeUrl } from '@angular/platform-browser';
@@ -11,6 +11,7 @@ import { EditorService } from '../services/editor.service';
 import Delta from 'quill-delta';
 import { ModelService } from '../services/model.service';
 import { ExtensionService } from '../services/extension.service';
+import { KeyboardService } from '../services/keyboard.service';
 
 interface IImageMeta {
   type: string;
@@ -49,7 +50,8 @@ export class QuillEditorComponent implements AfterViewInit {
     private selectionService: SelectionService,
     private editorService: EditorService,
     private modelService: ModelService,
-    private extensionService: ExtensionService
+    private extensionService: ExtensionService,
+    private keyboardService: KeyboardService
   ) {}
   ngAfterViewInit() {
     this.quillEditorService.registerCustomBolt();
@@ -143,6 +145,19 @@ export class QuillEditorComponent implements AfterViewInit {
             },
             insertCustomBlotButton: () => {
               this.quillEditorService.insertRedText(this.quillEditor);
+            },
+          },
+        },
+        // 初始化時加入 key binding，可以觀察 instance 的 keyboard.bindings
+        keyboard: {
+          bindings: {
+            custom: {
+              key: 'enter',
+              empty: true,
+              handler: (range: RangeStatic, context: any) => {
+                // 空行時插入特殊符號
+                this.quillEditor.insertText(range.index, '★');
+              },
             },
           },
         },
@@ -335,5 +350,18 @@ export class QuillEditorComponent implements AfterViewInit {
 
   getModule() {
     this.extensionService.getModule(this.quillEditor);
+  }
+
+  // Keyboard
+  addBinding() {
+    this.keyboardService.addBinding(this.quillEditor);
+  }
+
+  addBindingWithMoreContext() {
+    this.keyboardService.addBindingWithMoreContext(this.quillEditor);
+  }
+
+  addBindingWithEmpty() {
+    this.keyboardService.addBindingWithEmpty(this.quillEditor);
   }
 }
