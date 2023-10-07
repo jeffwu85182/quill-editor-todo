@@ -51,4 +51,27 @@ export class KeyboardService {
       }
     );
   }
+
+  addBindingWithOffset(quill: Quill) {
+    console.log('addBindingWithOffset');
+    quill.keyboard.addBinding(
+      { key: 'o' },
+      { offset: 2 }, // 當游標在第3個字元前面時觸發
+      (range, context) => {
+        // 插入特殊符號的代碼
+        quill.insertText(range.index, '★★★');
+      }
+    );
+  }
+
+  addBindingWithPrefix(quill: Quill) {
+    console.log('addBindingWithPrefix');
+    quill.keyboard.addBinding(
+      { key: 'k' },
+      { prefix: /@$/ }, // 前置文本必須是 @
+      (range, context) => {
+        console.log('觸發了 @ 符號的自定義行為');
+      }
+    );
+  }
 }

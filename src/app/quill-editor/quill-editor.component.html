@@ -105,8 +105,12 @@ Current State:
 <h2>Keyboard</h2>
 <section>
   <button (click)="addBinding()">Add Binding</button>
-  <button (click)="addBindingWithMoreContext()">Add Binding With Context</button>
-  <button (click)="addBindingWithEmpty()">Add Binding With Empty </button>
+  <button (click)="addBindingWithMoreContext()">
+    Add Binding With Context
+  </button>
+  <button (click)="addBindingWithEmpty()">Add Binding With Empty</button>
+  <button (click)="addBindingWithOffset()">Add Binding With Offset</button>
+  <button (click)="addBindingWithPrefix()">Add Binding With Prefix</button>
 </section>
 
 <pre *ngIf="history?.stack">

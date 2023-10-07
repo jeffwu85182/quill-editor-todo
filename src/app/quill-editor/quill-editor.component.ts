@@ -364,4 +364,12 @@ export class QuillEditorComponent implements AfterViewInit {
   addBindingWithEmpty() {
     this.keyboardService.addBindingWithEmpty(this.quillEditor);
   }
+
+  addBindingWithOffset() {
+    this.keyboardService.addBindingWithOffset(this.quillEditor);
+  }
+
+  addBindingWithPrefix() {
+    this.keyboardService.addBindingWithPrefix(this.quillEditor);
+  }
 }
