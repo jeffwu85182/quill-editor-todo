@@ -12,6 +12,7 @@ import Delta from 'quill-delta';
 import { ModelService } from '../services/model.service';
 import { ExtensionService } from '../services/extension.service';
 import { KeyboardService } from '../services/keyboard.service';
+import { HistoryService } from '../services/history.service';
 
 interface IImageMeta {
   type: string;
@@ -51,11 +52,19 @@ export class QuillEditorComponent implements AfterViewInit {
     private editorService: EditorService,
     private modelService: ModelService,
     private extensionService: ExtensionService,
-    private keyboardService: KeyboardService
+    private keyboardService: KeyboardService,
+    private historyService: HistoryService
   ) {}
   ngAfterViewInit() {
     this.quillEditorService.registerCustomBolt();
-    this.initQuillEditor();
+    // 其他模組的初始化練習
+    // this.initQuillEditor();
+
+    // History 模組的初始化練習
+    this.quillEditor = this.historyService.initializeWithCustomHistory(
+      this.quillContainer.nativeElement
+    );
+
     // 監聽編輯器內容變化事件，並將變化同步到 Angular 的資料模型
     // this.quillEditor.on(
     //   'text-change',
@@ -371,5 +380,22 @@ export class QuillEditorComponent implements AfterViewInit {
 
   addBindingWithPrefix() {
     this.keyboardService.addBindingWithPrefix(this.quillEditor);
+  }
+
+  // History
+  clear() {
+    this.historyService.clear(this.quillEditor);
+  }
+
+  cutOffHistory() {
+    this.historyService.cutOffHistory(this.quillEditor);
+  }
+
+  redo() {
+    this.historyService.redo(this.quillEditor);
+  }
+
+  undo() {
+    this.historyService.undo(this.quillEditor);
   }
 }

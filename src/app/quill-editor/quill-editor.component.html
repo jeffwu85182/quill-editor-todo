@@ -113,6 +113,14 @@ Current State:
   <button (click)="addBindingWithPrefix()">Add Binding With Prefix</button>
 </section>
 
+<h2>History</h2>
+<section>
+  <button (click)="clear()">Clear History</button>
+  <button (click)="undo()">Undo</button>
+  <button (click)="redo()">Redo</button>
+  <button (click)="cutOffHistory()">Change History</button>
+</section>
+
 <pre *ngIf="history?.stack">
   {{ history.stack.undo.length | json }}
   {{ history.stack.redo.length | json }}
