@@ -13,6 +13,7 @@ import { ModelService } from '../services/model.service';
 import { ExtensionService } from '../services/extension.service';
 import { KeyboardService } from '../services/keyboard.service';
 import { HistoryService } from '../services/history.service';
+import { ClipboardService } from '../services/clipboard.service';
 
 interface IImageMeta {
   type: string;
@@ -53,17 +54,23 @@ export class QuillEditorComponent implements AfterViewInit {
     private modelService: ModelService,
     private extensionService: ExtensionService,
     private keyboardService: KeyboardService,
-    private historyService: HistoryService
+    private historyService: HistoryService,
+    private clipboardService: ClipboardService
   ) {}
   ngAfterViewInit() {
     this.quillEditorService.registerCustomBolt();
     // 其他模組的初始化練習
     // this.initQuillEditor();
 
-    // History 模組的初始化練習
-    this.quillEditor = this.historyService.initializeWithCustomHistory(
+    // Clipboard 模組的初始化練習
+    this.quillEditor = this.clipboardService.initialWithClipboard(
       this.quillContainer.nativeElement
     );
+
+    // History 模組的初始化練習
+    // this.quillEditor = this.historyService.initializeWithCustomHistory(
+    //   this.quillContainer.nativeElement
+    // );
 
     // 監聽編輯器內容變化事件，並將變化同步到 Angular 的資料模型
     // this.quillEditor.on(
@@ -397,5 +404,14 @@ export class QuillEditorComponent implements AfterViewInit {
 
   undo() {
     this.historyService.undo(this.quillEditor);
+  }
+
+  // Clipboard
+  addMatcher() {
+    this.clipboardService.addMatcherWithBTagAsBold(this.quillEditor);
+  }
+
+  pasteHTML() {
+    this.clipboardService.pasteHTML(this.quillEditor);
   }
 }

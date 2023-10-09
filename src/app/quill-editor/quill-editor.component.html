@@ -126,5 +126,11 @@ Current State:
   {{ history.stack.redo.length | json }}
 </pre>
 
+<h2>Clipboard</h2>
+<section>
+  <button (click)="addMatcher()">Add Matcher</button>
+  <button (click)="pasteHTML()">Paste HTML</button>
+</section>
+
 <section id="tooltip" #tooltip>我是一個小提示</section>
 <div class="ql-custom2" #custom2>This is custom2 container</div>
