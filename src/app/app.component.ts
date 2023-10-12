@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { QuillEditorComponent } from './quill-editor/quill-editor.component';
 import { ToolbarPracticeComponent } from './toolbar-practice/toolbar-practice.component';
 import { ParchmentComponent } from './parchment/parchment.component';
+import { MediumEditorComponent } from './medium-editor/medium-editor.component';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ import { ParchmentComponent } from './parchment/parchment.component';
     QuillEditorComponent,
     ToolbarPracticeComponent,
     ParchmentComponent,
+    MediumEditorComponent,
   ],
 })
 export class AppComponent {
