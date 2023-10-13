@@ -1,18 +1,40 @@
 <p>medium-editor works!</p>
 <div #tooltipControls class="tooltip-controls">
-  <button id="bold-button" (click)="formatBold()">
+  <button id="bold-button" type="button" title="bold" (click)="formatBold()">
     <i class="fa fa-bold"></i>
   </button>
-  <button id="italic-button"><i class="fa fa-italic"></i></button>
-  <button id="link-button"><i class="fa fa-link"></i></button>
-  <button id="blockquote-button"><i class="fa fa-quote-right"></i></button>
-  <button id="header-1-button"><i class="fa fa-header"></i><sub>1</sub></button>
-  <button id="header-2-button"><i class="fa fa-header"></i><sub>2</sub></button>
+  <button
+    id="italic-button"
+    type="button"
+    title="italic"
+    (click)="formatItalic()"
+  >
+    <i class="fa fa-italic"></i>
+  </button>
+  <button type="button" title="link" id="link-button" (click)="addLink()">
+    <i class="fa fa-link"></i>
+  </button>
+  <button
+    type="button"
+    title="blockquote"
+    id="blockquote-button"
+    (click)="addBlockquote()"
+  >
+    <i class="fa fa-quote-right"></i>
+  </button>
+  <button type="button" title="header1" id="header-1-button" (click)="addHeader1()">
+    <i class="fa fa-header"></i><sub>1</sub>
+  </button>
+  <button type="button" title="header2" id="header-2-button" (click)="addHeader2()">
+    <i class="fa fa-header"></i><sub>2</sub>
+  </button>
 </div>
 <div class="sidebar-controls">
-  <button id="image-button"><i class="fa fa-camera"></i></button>
-  <button id="video-button"><i class="fa fa-play"></i></button>
-  <button id="tweet-button"><i class="fa-brands fa-twitter"></i></button>
-  <button id="divider-button"><i class="fa fa-minus"></i></button>
+  <button type="button" title="image" id="image-button"><i class="fa fa-camera"></i></button>
+  <button type="button" title="video" id="video-button"><i class="fa fa-play"></i></button>
+  <button type="button" title="tweet" id="tweet-button"><i class="fa-brands fa-twitter"></i></button>
+  <button type="button" title="divider" id="divider-button"><i class="fa fa-minus"></i></button>
+  <button type="button" title="hippo" (click)="insertText()"><i class="fa fa-hippo"></i></button>
+  <button type="button" title="dog" (click)="formatText()"><i class="fa fa-dog"></i></button>
 </div>
 <div class="editor-container" #editorContainer>Tell your story...</div>
