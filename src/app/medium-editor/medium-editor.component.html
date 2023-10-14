@@ -22,19 +22,46 @@
   >
     <i class="fa fa-quote-right"></i>
   </button>
-  <button type="button" title="header1" id="header-1-button" (click)="addHeader1()">
+  <button
+    type="button"
+    title="header1"
+    id="header-1-button"
+    (click)="addHeader1()"
+  >
     <i class="fa fa-header"></i><sub>1</sub>
   </button>
-  <button type="button" title="header2" id="header-2-button" (click)="addHeader2()">
+  <button
+    type="button"
+    title="header2"
+    id="header-2-button"
+    (click)="addHeader2()"
+  >
     <i class="fa fa-header"></i><sub>2</sub>
   </button>
 </div>
 <div class="sidebar-controls">
-  <button type="button" title="image" id="image-button"><i class="fa fa-camera"></i></button>
-  <button type="button" title="video" id="video-button"><i class="fa fa-play"></i></button>
-  <button type="button" title="tweet" id="tweet-button"><i class="fa-brands fa-twitter"></i></button>
-  <button type="button" title="divider" id="divider-button"><i class="fa fa-minus"></i></button>
-  <button type="button" title="hippo" (click)="insertText()"><i class="fa fa-hippo"></i></button>
-  <button type="button" title="dog" (click)="formatText()"><i class="fa fa-dog"></i></button>
+  <button type="button" title="image" id="image-button" (click)="addImage()">
+    <i class="fa fa-camera"></i>
+  </button>
+  <button type="button" title="video" id="video-button">
+    <i class="fa fa-play"></i>
+  </button>
+  <button type="button" title="tweet" id="tweet-button">
+    <i class="fa-brands fa-twitter"></i>
+  </button>
+  <button
+    type="button"
+    title="divider"
+    id="divider-button"
+    (click)="addDivider()"
+  >
+    <i class="fa fa-minus"></i>
+  </button>
+  <button type="button" title="hippo" (click)="insertText()">
+    <i class="fa fa-hippo"></i>
+  </button>
+  <button type="button" title="dog" (click)="formatText()">
+    <i class="fa fa-dog"></i>
+  </button>
 </div>
 <div class="editor-container" #editorContainer>Tell your story...</div>

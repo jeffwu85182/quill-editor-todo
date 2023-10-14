@@ -1,11 +1,12 @@
-import {
-  Component,
-  AfterViewInit,
-  ElementRef,
-  ViewChild,
-  SecurityContext,
-} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  SecurityContext,
+  ViewChild,
+} from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import Quill from 'quill';
 import {
   BlockquoteBlot,
@@ -14,7 +15,7 @@ import {
   ItalicBlot,
   LinkBlot,
 } from './basic-formatting';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DividerBlot, ImageBlot } from './leaf-blot';
 
 @Component({
   selector: 'app-medium-editor',
@@ -48,6 +49,9 @@ export class MediumEditorComponent implements AfterViewInit {
     Quill.register(LinkBlot);
     Quill.register(BlockquoteBlot);
     Quill.register(HeaderBlot);
+    // Leaf blot
+    Quill.register(DividerBlot);
+    Quill.register(ImageBlot);
   }
 
   formatBold() {
@@ -74,5 +78,38 @@ export class MediumEditorComponent implements AfterViewInit {
 
   addHeader2() {
     this.quillInstance.format('myHeader', 2);
+  }
+
+  addDivider() {
+    const range = this.quillInstance.getSelection(true);
+    this.quillInstance.insertText(range.index, '\n', Quill.sources.USER);
+    this.quillInstance.insertEmbed(
+      range.index + 1,
+      'myDivider',
+      true,
+      Quill.sources.USER
+    );
+    this.quillInstance.setSelection(
+      { index: range.index + 2, length: 0 },
+      Quill.sources.SILENT
+    );
+  }
+
+  addImage() {
+    const range = this.quillInstance.getSelection(true);
+    this.quillInstance.insertText(range.index, '\n', Quill.sources.USER);
+    this.quillInstance.insertEmbed(
+      range.index + 1,
+      'myImage',
+      {
+        alt: 'Quill Cloud',
+        url: 'https://quilljs.com/0.20/assets/images/cloud.png',
+      },
+      Quill.sources.USER
+    );
+    this.quillInstance.setSelection(
+      { index: range.index + 2, length: range.length },
+      Quill.sources.SILENT
+    );
   }
 }
