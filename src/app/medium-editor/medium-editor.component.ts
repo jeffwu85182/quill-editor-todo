@@ -1,8 +1,11 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import {
   AfterViewInit,
   Component,
   ElementRef,
+  Inject,
+  OnInit,
+  Renderer2,
   SecurityContext,
   ViewChild,
 } from '@angular/core';
@@ -15,7 +18,7 @@ import {
   ItalicBlot,
   LinkBlot,
 } from './basic-formatting';
-import { DividerBlot, ImageBlot } from './leaf-blot';
+import { DividerBlot, ImageBlot, TweetBlot, VideoBlot } from './leaf-blot';
 
 @Component({
   selector: 'app-medium-editor',
@@ -24,11 +27,24 @@ import { DividerBlot, ImageBlot } from './leaf-blot';
   templateUrl: './medium-editor.component.html',
   styleUrls: ['./medium-editor.component.scss'],
 })
-export class MediumEditorComponent implements AfterViewInit {
+export class MediumEditorComponent implements OnInit, AfterViewInit {
   @ViewChild('editorContainer') editorContainer!: ElementRef;
   quillInstance!: Quill;
 
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(
+    private sanitizer: DomSanitizer,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
+  ) {}
+
+  ngOnInit(): void {
+    const script = this.renderer.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://platform.twitter.com/widgets.js';
+    script.async = true;
+    script.charset = 'utf-8';
+    this.renderer.appendChild(this.document.body, script);
+  }
 
   ngAfterViewInit(): void {
     this.registerBasicFormatting();
@@ -52,6 +68,8 @@ export class MediumEditorComponent implements AfterViewInit {
     // Leaf blot
     Quill.register(DividerBlot);
     Quill.register(ImageBlot);
+    Quill.register(VideoBlot);
+    Quill.register(TweetBlot);
   }
 
   formatBold() {
@@ -109,6 +127,38 @@ export class MediumEditorComponent implements AfterViewInit {
     );
     this.quillInstance.setSelection(
       { index: range.index + 2, length: range.length },
+      Quill.sources.SILENT
+    );
+  }
+
+  addVideo() {
+    const range = this.quillInstance.getSelection(true);
+    this.quillInstance.insertText(range.index, '\n', Quill.sources.USER);
+    this.quillInstance.insertEmbed(range.index + 1, 'myVideo', {
+      url: 'https://www.youtube.com/embed/QHH3iSeDBLo',
+    });
+    this.quillInstance.formatText(range.index + 1, 1, {
+      height: '170',
+      width: '400',
+    });
+    this.quillInstance.setSelection(
+      { index: range.index + 2, length: 0 },
+      Quill.sources.SILENT
+    );
+  }
+
+  addTweet() {
+    const range = this.quillInstance.getSelection(true);
+    const id = '464454167226904576';
+    this.quillInstance.insertText(range.index, '\n', Quill.sources.USER);
+    this.quillInstance.insertEmbed(
+      range.index + 1,
+      'myTweet',
+      id,
+      Quill.sources.USER
+    );
+    this.quillInstance.setSelection(
+      { index: range.index + 2, length: 0 },
       Quill.sources.SILENT
     );
   }
