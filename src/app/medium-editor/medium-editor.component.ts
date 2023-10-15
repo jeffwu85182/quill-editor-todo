@@ -1,6 +1,7 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Inject,
@@ -10,7 +11,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import Quill from 'quill';
+import Quill, { BoundsStatic, RangeStatic } from 'quill';
 import {
   BlockquoteBlot,
   BoldBlot,
@@ -29,11 +30,16 @@ import { DividerBlot, ImageBlot, TweetBlot, VideoBlot } from './leaf-blot';
 })
 export class MediumEditorComponent implements OnInit, AfterViewInit {
   @ViewChild('editorContainer') editorContainer!: ElementRef;
+  @ViewChild('tooltipControls') tooltipControls!: ElementRef;
+  @ViewChild('sidebarControls') sidebarControls!: ElementRef;
   quillInstance!: Quill;
-
+  showTooltipControls = true;
+  showSidebarControls = true;
+  showControlsOptions = false;
   constructor(
     private sanitizer: DomSanitizer,
     private renderer: Renderer2,
+    private cd: ChangeDetectorRef,
     @Inject(DOCUMENT) private document: Document
   ) {}
 
@@ -47,8 +53,86 @@ export class MediumEditorComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.registerBasicFormatting();
-    this.quillInstance = new Quill(this.editorContainer.nativeElement);
+    setTimeout(() => {
+      this.registerBasicFormatting();
+      this.quillInstance = new Quill(this.editorContainer.nativeElement);
+      this.quillInstance.addContainer(this.tooltipControls.nativeElement);
+      this.quillInstance.addContainer(this.sidebarControls.nativeElement);
+      const Block = Quill.import('blots/block');
+      this.quillInstance.on(
+        'editor-change',
+        (eventType: string, range: RangeStatic) => {
+          console.log(eventType, range);
+          if (eventType !== 'selection-change') return;
+          if (range == null) return;
+          if (range.length === 0) {
+            this.hideTooltip();
+            const [block, offset]: any = (<any>(
+              this.quillInstance.scroll
+            )).descendant(Block, range.index);
+            console.log('block', block);
+            if (
+              block != null &&
+              block.domNode.firstChild instanceof HTMLBRElement
+            ) {
+              let lineBounds = this.quillInstance.getBounds(range.index);
+              this.showSidebar(lineBounds);
+            } else {
+              this.hideSidebar();
+              this.hideTooltip();
+            }
+          } else {
+            this.hideSidebar();
+            this.hideTooltip();
+            const rangeBounds = this.quillInstance.getBounds(range.index);
+
+            this.showTooltip(rangeBounds);
+          }
+        }
+      );
+      this.hideSidebar();
+      this.hideTooltip();
+    });
+  }
+
+  showTooltip(rangeBounds: BoundsStatic) {
+    this.showTooltipControls = true;
+    this.cd.detectChanges();
+    const outerWidth = this.tooltipControls.nativeElement.offsetWidth;
+    const left = rangeBounds.left + rangeBounds.width / 2 - outerWidth / 2;
+    const top = rangeBounds.bottom + 10;
+    this.tooltipControls.nativeElement.style.left = `${left}px`;
+    this.tooltipControls.nativeElement.style.top = `${top}px`;
+    this.cd.detectChanges();
+  }
+
+  hideTooltip() {
+    console.log('hideTooltip');
+    this.showTooltipControls = false;
+    this.cd.detectChanges();
+  }
+
+  showSidebar(lineBounds: BoundsStatic) {
+    console.log('showSidebar');
+    this.showSidebarControls = true;
+    this.showControlsOptions = false;
+    this.cd.detectChanges();
+    this.sidebarControls.nativeElement.style.left = `${lineBounds.left - 50}px`;
+    this.sidebarControls.nativeElement.style.top = `${lineBounds.top - 2}px`;
+    this.cd.detectChanges();
+  }
+
+  hideSidebar() {
+    console.log('hideSidebar');
+    this.showSidebarControls = false;
+    this.showControlsOptions = false;
+    this.cd.detectChanges();
+  }
+
+  showControls() {
+    console.log('showControls');
+    this.showControlsOptions = true;
+    this.cd.detectChanges();
   }
 
   insertText() {
@@ -129,6 +213,7 @@ export class MediumEditorComponent implements OnInit, AfterViewInit {
       { index: range.index + 2, length: range.length },
       Quill.sources.SILENT
     );
+    this.hideSidebar();
   }
 
   addVideo() {
@@ -145,6 +230,7 @@ export class MediumEditorComponent implements OnInit, AfterViewInit {
       { index: range.index + 2, length: 0 },
       Quill.sources.SILENT
     );
+    this.hideSidebar();
   }
 
   addTweet() {
@@ -161,5 +247,6 @@ export class MediumEditorComponent implements OnInit, AfterViewInit {
       { index: range.index + 2, length: 0 },
       Quill.sources.SILENT
     );
+    this.hideSidebar();
   }
 }
